@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-test | PKM Al Kautsar Pandaan</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+*{box-sizing:border-box}
+:root{--nav:#0b3d2e;--gold:#c9a227;--bg:#f4f6f5;--card:#fff;--line:#e2e8e5;--txt:#1c2b26;--muted:#61736c}
+body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+.wrap{max-width:920px;margin:0 auto;padding:18px}
+header.kop{background:var(--card);border-radius:14px;padding:18px 22px;display:flex;align-items:center;gap:18px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:6px solid var(--nav)}
+header.kop img{height:74px;width:auto;object-fit:contain}
+.kop-txt{flex:1;text-align:center}
+.kop-txt .sub{font-size:12.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.kop-txt h1{margin:6px 0 4px;font-size:19px;line-height:1.35;color:var(--nav)}
+.kop-txt .badge{display:inline-block;margin-top:4px;background:var(--nav);color:#fff;padding:3px 14px;border-radius:20px;font-size:13px;font-weight:600;letter-spacing:.5px}
+.card{background:var(--card);border-radius:14px;padding:20px 22px;margin-top:16px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.card h2{margin:0 0 14px;font-size:16px;color:var(--nav);border-left:4px solid var(--gold);padding-left:10px}
+label.f{display:block;font-weight:600;font-size:14px;margin:12px 0 5px}
+label.f span{color:#c0392b}
+input[type=text],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14.5px;font-family:inherit;background:#fbfcfc}
+input[type=text]:focus,select:focus,textarea:focus{outline:none;border-color:var(--nav);background:#fff}
+textarea{min-height:96px;resize:vertical}
+.note{background:#fffbe9;border:1px solid #f0e2b0;border-radius:10px;padding:12px 14px;font-size:13.5px;color:#6b5a17}
+.q{padding:16px 0;border-bottom:1px dashed var(--line)}
+.q:last-child{border-bottom:none}
+.q .qt{font-weight:600;font-size:14.8px;margin-bottom:9px;display:flex;gap:9px}
+.q .qn{flex:0 0 30px;height:26px;line-height:26px;text-align:center;background:var(--nav);color:#fff;border-radius:7px;font-size:13px}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:7px 11px;border:1px solid var(--line);border-radius:9px;margin:5px 0 0 39px;cursor:pointer;font-size:14.2px;background:#fbfcfc;transition:.12s}
+.opt:hover{border-color:var(--nav);background:#f2f7f5}
+.opt input{margin-top:4px;accent-color:var(--nav)}
+.opt .ol{font-weight:700;color:var(--nav);flex:0 0 18px}
+.opt.sel{border-color:var(--nav);background:#eaf3ef}
+table.lk{width:100%;border-collapse:collapse;font-size:13.6px}
+table.lk th{background:var(--nav);color:#fff;padding:9px 6px;font-size:12.5px}
+table.lk th:first-child{text-align:left}
+table.lk td{border-bottom:1px solid var(--line);padding:9px 6px;vertical-align:middle}
+table.lk td.c{text-align:center;width:58px}
+table.lk tr.miss td{background:#fdeeee}
+table.lk input{accent-color:var(--nav);transform:scale(1.15)}
+.btn{background:var(--nav);color:#fff;border:none;padding:13px 30px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn:hover{background:#0f5540}
+.btn:disabled{background:#9bada7;cursor:not-allowed}
+.btn.g{background:var(--gold);color:#3a2f00}
+.btn.g:hover{background:#dcb32d}
+.actions{text-align:center;margin:22px 0 8px}
+.timer{position:sticky;top:0;z-index:40;display:none;background:var(--nav);color:#fff;padding:9px 16px;border-radius:0 0 12px 12px;font-weight:700;text-align:center;letter-spacing:.5px;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+.timer.warn{background:#b02a2a}
+.hidden{display:none!important}
+.ovl{position:fixed;inset:0;background:rgba(12,30,24,.72);display:flex;align-items:center;justify-content:center;padding:18px;z-index:80}
+.ovl .box{background:#fff;border-radius:16px;max-width:430px;width:100%;padding:28px 26px;text-align:center}
+.score{font-size:56px;font-weight:800;color:var(--nav);line-height:1}
+.score small{display:block;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:6px}
+.pill{display:inline-block;padding:5px 16px;border-radius:20px;font-size:13px;font-weight:600;margin-top:12px}
+.st{font-size:13px;margin-top:16px;color:var(--muted);min-height:20px}
+.err{color:#c0392b;font-size:13.5px;font-weight:600;margin-top:10px;text-align:center}
+footer{text-align:center;font-size:12px;color:var(--muted);padding:22px 0 30px}
+@media(max-width:640px){header.kop{gap:10px;padding:14px}header.kop img{height:48px}.kop-txt h1{font-size:15px}.opt{margin-left:0}table.lk td.c{width:40px}table.lk th{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="timer" id="timerBar"></div>
+<div class="wrap">
+<header class="kop">
+  <img src="https://i.ibb.co.com/Gv1xXFQG/logo-Unesa.png" alt="Logo Unesa" id="logoA" crossorigin="anonymous">
+  <div class="kop-txt">
+    <div class="sub">Program Kemitraan Masyarakat &middot; Universitas Negeri Surabaya</div>
+    <h1>Penguatan Kompetensi Guru Pondok Pesantren Al Kautsar Pandaan<br>dalam Mendesain Asesmen dan Tugas HOTS Berbantuan AI</h1>
+    <div class="badge">Pre-test</div>
+  </div>
+  <img src="https://i.ibb.co.com/C5QhKmqc/al-kautsar.png" alt="Logo PP Al Kautsar" id="logoB" crossorigin="anonymous">
+</header>
+
+<div class="card" id="cardId">
+  <h2>A. Identitas Peserta</h2>
+  <label class="f">Nama Lengkap dan Gelar <span>*</span></label>
+  <input type="text" id="nama" placeholder="Contoh: Ahmad Fauzi, S.Pd.">
+  <label class="f">Institusi <span>*</span></label>
+  <select id="institusi">
+    <option value="">-- Pilih Institusi --</option>
+    <option>KB - TK AL-KAUTSAR</option>
+    <option>SD NU AL-KAUTSAR</option>
+    <option>MTs NU AL-KAUTSAR</option>
+    <option>MA AL-KAUTSAR</option>
+  </select>
+  <label class="f">Mata Pelajaran / Kelas <span>*</span></label>
+  <input type="text" id="mapel" placeholder="Contoh: Matematika / Kelas VIII">
+</div>
+
+<div class="card" id="startBox">
+  <h2>B. Petunjuk Pengerjaan</h2>
+  <div class="note">
+    <b>Perhatikan sebelum memulai:</b>
+    <ol style="margin:8px 0 0 18px;padding:0">
+      <li>Terdapat <b>20 soal pilihan ganda</b>. Pilih <b>satu</b> jawaban yang paling tepat.</li>
+      <li>Waktu pengerjaan <b>30 menit</b>, dihitung sejak tombol <i>Mulai Mengerjakan</i> ditekan.</li>
+      <li>Jika waktu habis, jawaban akan dikirim secara otomatis.</li>
+      <li>Setelah dikirim, nilai langsung tampil dan <b>bukti pengerjaan (PDF) otomatis terunduh</b>.</li>
+      <li>Simpan file PDF tersebut sebagai bukti bahwa Anda telah mengerjakan.</li>
+    </ol>
+  </div>
+  <div class="err" id="errStart"></div>
+  <div class="actions"><button class="btn" id="btnStart">Mulai Mengerjakan &rarr;</button></div>
+</div>
+
+<div class="card hidden" id="cardSoal">
+  <h2>C. Soal Pilihan Ganda</h2>
+  <div style="font-size:13px;color:#61736c;margin:-6px 0 4px" id="prog"></div>
+  <div id="soalBox"></div>
+  <div class="err" id="errSubmit"></div>
+  <div class="actions"><button class="btn g" id="btnSubmit">Selesai &amp; Kirim Jawaban</button></div>
+</div>
+
+<div class="ovl hidden" id="hasilOvl">
+  <div class="box">
+    <div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#61736c;font-weight:700">Hasil Pre-test</div>
+    <div style="margin:16px 0 6px" class="score"><span id="nilaiTxt">0</span><small>Nilai Anda</small></div>
+    <div class="pill" id="pill"></div>
+    <div style="margin-top:16px;font-size:14px"><b id="hasilNama"></b><br><span style="color:#61736c;font-size:13px" id="hasilInst"></span></div>
+    <div class="st" id="stat">Memproses...</div>
+    <div style="margin-top:18px;font-size:12px;color:#8a9994">Terima kasih. Anda dapat menutup halaman ini.</div>
+  </div>
+</div>
+<script>
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtwDNDqQHPrTc4wlw6SgxR-slwNhIbOxMhK2SnS-cA-7vcWYShZD03aX8fAQSmqNf3/exec";
+const FORM_TYPE  = "Pretest";
+const JUDUL      = "Pre-test";
+const KEGIATAN   = "Penguatan Kompetensi Guru Pondok Pesantren Al Kautsar Pandaan dalam Mendesain Asesmen dan Tugas HOTS Berbantuan AI";
+const LOGOS      = {a:"https://i.ibb.co.com/Gv1xXFQG/logo-Unesa.png", b:"https://i.ibb.co.com/C5QhKmqc/al-kautsar.png"};
+const IMGCACHE   = {};
+
+function toDataURL(url){
+  return new Promise(res=>{
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = ()=>{ try{
+        const c=document.createElement("canvas"); c.width=img.naturalWidth; c.height=img.naturalHeight;
+        c.getContext("2d").drawImage(img,0,0); res(c.toDataURL("image/png"));
+      }catch(e){ res(null); } };
+    img.onerror = ()=>res(null);
+    img.src = url;
+  });
+}
+async function preloadLogos(){
+  IMGCACHE.a = await toDataURL(LOGOS.a);
+  IMGCACHE.b = await toDataURL(LOGOS.b);
+}
+preloadLogos();
+
+function nowStamp(){
+  const d=new Date();
+  const bl=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const p=n=>String(n).padStart(2,"0");
+  return d.getDate()+" "+bl[d.getMonth()]+" "+d.getFullYear()+", "+p(d.getHours())+":"+p(d.getMinutes())+" WIB";
+}
+function isoStamp(){ return new Date().toISOString(); }
+function safeName(s){ return (s||"peserta").replace(/[^a-zA-Z0-9 ]/g,"").trim().replace(/\s+/g,"_").slice(0,40); }
+
+function getIdentitas(){
+  return {
+    nama: document.getElementById("nama").value.trim(),
+    institusi: document.getElementById("institusi").value,
+    mapel: document.getElementById("mapel").value.trim()
+  };
+}
+function validIdentitas(id){
+  if(!id.nama){ return "Nama Lengkap dan Gelar wajib diisi."; }
+  if(!id.institusi){ return "Institusi wajib dipilih."; }
+  if(!id.mapel){ return "Mata Pelajaran / Kelas wajib diisi."; }
+  return "";
+}
+
+function kirimSheet(payload){
+  if(!SCRIPT_URL || SCRIPT_URL.indexOf("PASTE") === 0){
+    return Promise.resolve("skip");
+  }
+  return fetch(SCRIPT_URL, {
+    method:"POST", mode:"no-cors",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body: JSON.stringify(payload)
+  }).then(()=> "ok").catch(()=> "gagal");
+}
+
+/* ---------- PDF header ---------- */
+function pdfHeader(doc, subjudul){
+  const W = doc.internal.pageSize.getWidth();
+  if(IMGCACHE.a){ try{ doc.addImage(IMGCACHE.a,"PNG",14,10,20,20);}catch(e){} }
+  if(IMGCACHE.b){ try{ doc.addImage(IMGCACHE.b,"PNG",W-34,10,20,20);}catch(e){} }
+  doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.setTextColor(11,61,46);
+  doc.text("PROGRAM KEMITRAAN MASYARAKAT (PKM)", W/2, 15, {align:"center"});
+  doc.setFontSize(9); doc.setFont("helvetica","normal"); doc.setTextColor(70,70,70);
+  doc.text("Universitas Negeri Surabaya \u00D7 Pondok Pesantren Al Kautsar Pandaan", W/2, 20, {align:"center"});
+  doc.setFont("helvetica","bold"); doc.setFontSize(8.6); doc.setTextColor(11,61,46);
+  const t = doc.splitTextToSize(KEGIATAN, W-80);
+  doc.text(t, W/2, 25, {align:"center"});
+  let y = 25 + t.length*3.9 + 3;
+  doc.setDrawColor(201,162,39); doc.setLineWidth(0.9); doc.line(14,y,W-14,y);
+  y += 7;
+  doc.setFontSize(12.5); doc.setTextColor(11,61,46); doc.setFont("helvetica","bold");
+  doc.text(subjudul, W/2, y, {align:"center"});
+  return y + 6;
+}
+function pdfIdentitas(doc, y, id, extra){
+  const W = doc.internal.pageSize.getWidth();
+  const rows = [["Nama Lengkap & Gelar", id.nama],["Institusi", id.institusi],["Mata Pelajaran / Kelas", id.mapel],["Waktu Pengerjaan", nowStamp()]];
+  (extra||[]).forEach(r=>rows.push(r));
+  doc.autoTable({
+    startY:y, body:rows, theme:"grid",
+    styles:{fontSize:9.3, cellPadding:2.2, textColor:[30,40,36], lineColor:[220,226,223]},
+    columnStyles:{0:{cellWidth:52, fontStyle:"bold", fillColor:[240,245,243]},1:{cellWidth:W-80}},
+    margin:{left:14,right:14}
+  });
+  return doc.lastAutoTable.finalY + 6;
+}
+function pdfFooter(doc){
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  const n = doc.internal.getNumberOfPages();
+  for(let i=1;i<=n;i++){
+    doc.setPage(i);
+    doc.setDrawColor(225,230,228); doc.setLineWidth(0.4); doc.line(14,H-14,W-14,H-14);
+    doc.setFontSize(7.6); doc.setTextColor(120,130,126); doc.setFont("helvetica","normal");
+    doc.text("Dokumen ini dibuat otomatis sebagai bukti pengisian instrumen PKM.", 14, H-9.5);
+    doc.text("Hal. "+i+" / "+n, W-14, H-9.5, {align:"right"});
+  }
+}
+
+/* ================= TES (PRETES / POSTES) ================= */
+const SOAL = [
+ {
+  "q": "Tujuan utama asesmen dalam pembelajaran adalah ....",
+  "o": [
+   "menentukan peringkat siswa",
+   "memberikan nilai akhir siswa",
+   "mengukur ketercapaian tujuan pembelajaran dan memberikan umpan balik",
+   "menentukan siswa yang lulus dan tidak lulus"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Soal HOTS umumnya mengukur kemampuan peserta didik pada level ....",
+  "o": [
+   "mengingat dan memahami",
+   "memahami dan menerapkan",
+   "menganalisis, mengevaluasi, dan mencipta",
+   "menghafal konsep dan definisi"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Menurut Taksonomi Bloom revisi, kemampuan “menganalisis” berada pada level ....",
+  "o": [
+   "C2",
+   "C3",
+   "C4",
+   "C6"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Berikut yang merupakan ciri soal HOTS adalah ....",
+  "o": [
+   "menanyakan definisi secara langsung",
+   "hanya memiliki satu langkah penyelesaian sederhana",
+   "menggunakan konteks nyata dan menuntut penalaran",
+   "mengukur kemampuan menghafal fakta"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Manakah contoh soal yang termasuk LOTS?",
+  "o": [
+   "Menentukan strategi terbaik menyelesaikan masalah lingkungan.",
+   "Menjelaskan alasan memilih suatu solusi.",
+   "Menyebutkan ibu kota Provinsi Jawa Timur.",
+   "Membandingkan dua metode penyelesaian masalah."
+  ],
+  "k": 2
+ },
+ {
+  "q": "Asesmen autentik adalah asesmen yang ....",
+  "o": [
+   "hanya dilakukan pada akhir pembelajaran",
+   "menilai kemampuan siswa melalui tugas yang bermakna dan kontekstual",
+   "hanya berupa tes pilihan ganda",
+   "hanya digunakan untuk mata pelajaran tertentu"
+  ],
+  "k": 1
+ },
+ {
+  "q": "Contoh asesmen autentik adalah ....",
+  "o": [
+   "tes hafalan istilah",
+   "ulangan harian pilihan ganda",
+   "proyek, portofolio, dan presentasi",
+   "tes benar-salah"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Tujuan penggunaan rubrik penilaian adalah ....",
+  "o": [
+   "mempersulit penilaian guru",
+   "mengurangi jumlah soal",
+   "membuat penilaian lebih objektif dan konsisten",
+   "mengganti fungsi guru dalam menilai"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Manakah berikut yang paling tepat menggambarkan keterampilan berpikir kritis?",
+  "o": [
+   "menghafal sebanyak mungkin informasi",
+   "menerima semua informasi tanpa mempertanyakan",
+   "menganalisis informasi sebelum mengambil keputusan",
+   "menyalin jawaban dari sumber lain"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Dalam pembelajaran abad ke-21, istilah 4C terdiri atas ....",
+  "o": [
+   "Communication, Collaboration, Critical Thinking, Creativity",
+   "Creativity, Culture, Competition, Communication",
+   "Collaboration, Character, Competition, Creativity",
+   "Creativity, Communication, Competence, Character"
+  ],
+  "k": 0
+ },
+ {
+  "q": "Berikut yang merupakan contoh tugas HOTS adalah ....",
+  "o": [
+   "menyebutkan nama-nama planet",
+   "menghafal rumus luas segitiga",
+   "merancang solusi pengelolaan sampah di sekolah",
+   "menyalin isi buku pelajaran"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Artificial Intelligence (AI) dalam pendidikan dapat dimanfaatkan untuk ....",
+  "o": [
+   "menggantikan seluruh peran guru",
+   "membantu guru menyusun materi dan asesmen",
+   "menghilangkan kebutuhan belajar siswa",
+   "menggantikan interaksi pembelajaran di kelas"
+  ],
+  "k": 1
+ },
+ {
+  "q": "Berikut yang termasuk contoh aplikasi AI generatif adalah ....",
+  "o": [
+   "Microsoft Word",
+   "Paint",
+   "ChatGPT",
+   "Calculator"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Prompt dalam penggunaan AI adalah ....",
+  "o": [
+   "perangkat keras komputer",
+   "instruksi yang diberikan kepada AI",
+   "jaringan internet",
+   "aplikasi pengolah kata"
+  ],
+  "k": 1
+ },
+ {
+  "q": "Prompt yang baik biasanya memiliki karakteristik ....",
+  "o": [
+   "sangat singkat tanpa konteks",
+   "jelas, spesifik, dan memiliki tujuan",
+   "menggunakan istilah teknis sebanyak mungkin",
+   "tidak menyebutkan kebutuhan pengguna"
+  ],
+  "k": 1
+ },
+ {
+  "q": "Salah satu risiko penggunaan AI dalam pembelajaran adalah ....",
+  "o": [
+   "meningkatkan efisiensi kerja guru",
+   "membantu membuat variasi soal",
+   "informasi yang dihasilkan belum tentu sepenuhnya benar",
+   "mempercepat penyusunan rubrik"
+  ],
+  "k": 2
+ },
+ {
+  "q": "Ketika menggunakan AI untuk membuat soal, guru sebaiknya ....",
+  "o": [
+   "langsung menggunakan hasil AI tanpa memeriksa kembali",
+   "memverifikasi dan menyesuaikan hasil AI dengan kebutuhan siswa",
+   "menyerahkan seluruh pekerjaan kepada AI",
+   "tidak perlu memahami materi pelajaran"
+  ],
+  "k": 1
+ },
+ {
+  "q": "Salah satu indikator soal HOTS adalah ....",
+  "o": [
+   "jawabannya dapat ditemukan secara langsung pada buku",
+   "siswa diminta melakukan penalaran dan pengambilan keputusan",
+   "soal hanya mengukur hafalan",
+   "soal tidak membutuhkan konteks"
+  ],
+  "k": 1
+ },
+ {
+  "q": "Contoh penggunaan AI yang tepat dalam asesmen adalah ....",
+  "o": [
+   "meminta AI memberikan nilai akhir tanpa pemeriksaan guru",
+   "menggunakan AI untuk membantu membuat variasi soal dan rubrik",
+   "membiarkan AI menentukan kelulusan siswa",
+   "menggantikan seluruh proses pembelajaran"
+  ],
+  "k": 1
+ },
+ {
+  "q": "Tahap pertama yang perlu dilakukan sebelum menyusun asesmen adalah ....",
+  "o": [
+   "menentukan bentuk soal",
+   "menentukan tujuan pembelajaran yang akan diukur",
+   "menentukan nilai akhir",
+   "menentukan jumlah soal"
+  ],
+  "k": 1
+ }
+];
+const HURUF = ["A","B","C","D"];
+const DURASI = 30*60;
+let sisa = DURASI, tId = null, mulai = null, sudah = false;
+
+function renderSoal(){
+  const box = document.getElementById("soalBox");
+  box.innerHTML = SOAL.map((s,i)=>{
+    const opts = s.o.map((o,j)=>
+      '<label class="opt" data-q="'+i+'"><input type="radio" name="q'+i+'" value="'+j+'"><span class="ol">'+HURUF[j]+'.</span><span>'+o+'</span></label>'
+    ).join("");
+    return '<div class="q" id="qb'+i+'"><div class="qt"><span class="qn">'+(i+1)+'</span><span>'+s.q+'</span></div>'+opts+'</div>';
+  }).join("");
+  box.addEventListener("change", e=>{
+    if(e.target.type!=="radio") return;
+    const i = e.target.closest(".opt").dataset.q;
+    box.querySelectorAll('.opt[data-q="'+i+'"]').forEach(l=>l.classList.remove("sel"));
+    e.target.closest(".opt").classList.add("sel");
+    document.getElementById("qb"+i).style.background="";
+    updateProgress();
+  });
+}
+function jawaban(){ return SOAL.map((s,i)=>{ const el=document.querySelector('input[name="q'+i+'"]:checked'); return el?parseInt(el.value):-1; }); }
+function updateProgress(){
+  const n = jawaban().filter(v=>v>=0).length;
+  document.getElementById("prog").textContent = n+" / "+SOAL.length+" soal terjawab";
+}
+function fmt(s){ const m=Math.floor(s/60), d=s%60; return String(m).padStart(2,"0")+":"+String(d).padStart(2,"0"); }
+function tick(){
+  sisa--;
+  const bar = document.getElementById("timerBar");
+  bar.textContent = "\u23F1 Sisa waktu: " + fmt(Math.max(sisa,0));
+  bar.classList.toggle("warn", sisa<=300);
+  if(sisa<=0){ clearInterval(tId); alert("Waktu habis. Jawaban Anda akan dikirim otomatis."); submitTes(true); }
+}
+function mulaiTes(){
+  const id = getIdentitas(); const err = validIdentitas(id);
+  const eb = document.getElementById("errStart");
+  if(err){ eb.textContent = err; return; }
+  eb.textContent = "";
+  document.getElementById("nama").readOnly = true;
+  document.getElementById("mapel").readOnly = true;
+  document.getElementById("institusi").disabled = true;
+  document.getElementById("startBox").classList.add("hidden");
+  document.getElementById("cardSoal").classList.remove("hidden");
+  document.getElementById("timerBar").style.display="block";
+  mulai = new Date();
+  tick(); tId = setInterval(tick,1000);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+async function submitTes(auto){
+  if(sudah) return;
+  const jw = jawaban();
+  if(!auto){
+    const kosong = [];
+    jw.forEach((v,i)=>{ if(v<0) kosong.push(i+1); });
+    if(kosong.length){
+      document.getElementById("errSubmit").textContent =
+        "Masih ada "+kosong.length+" soal yang belum dijawab: nomor "+kosong.join(", ")+".";
+      kosong.forEach(n=>{ document.getElementById("qb"+(n-1)).style.background="#fdeeee"; });
+      document.getElementById("qb"+(kosong[0]-1)).scrollIntoView({behavior:"smooth",block:"center"});
+      return;
+    }
+    if(!confirm("Kirim jawaban sekarang? Jawaban tidak dapat diubah setelah dikirim.")) return;
+  }
+  sudah = true; clearInterval(tId);
+  document.getElementById("btnSubmit").disabled = true;
+  document.getElementById("errSubmit").textContent = "";
+
+  let benar = 0;
+  jw.forEach((v,i)=>{ if(v === SOAL[i].k) benar++; });
+  const nilai = Math.round(benar/SOAL.length*100);
+  const durasiDetik = DURASI - Math.max(sisa,0);
+  const id = getIdentitas();
+  const hurufJw = jw.map(v=> v<0 ? "-" : HURUF[v]);
+
+  tampilHasil(id, benar, nilai);
+
+  const payload = {form: FORM_TYPE, waktu: isoStamp(), waktuLokal: nowStamp(),
+    nama:id.nama, institusi:id.institusi, mapel:id.mapel,
+    benar:benar, salah:SOAL.length-benar, total:SOAL.length, nilai:nilai,
+    durasi: fmt(durasiDetik), jawaban: hurufJw};
+
+  const st = document.getElementById("stat");
+  st.textContent = "Menyimpan bukti PDF...";
+  try{ await buatPDF(id, hurufJw, benar, nilai, fmt(durasiDetik)); }catch(e){ st.textContent = "PDF gagal dibuat: "+e.message; }
+  st.textContent = "Mengirim data ke server...";
+  const r = await kirimSheet(payload);
+  st.innerHTML = r==="ok" ? "\u2705 PDF terunduh &middot; data terkirim ke spreadsheet."
+    : (r==="skip" ? "\u2705 PDF terunduh. (URL Apps Script belum diisi \u2014 data belum terkirim)"
+                  : "\u26A0 PDF terunduh, namun pengiriman data gagal. Simpan PDF Anda sebagai bukti.");
+}
+function tampilHasil(id, benar, nilai){
+  document.getElementById("hasilOvl").classList.remove("hidden");
+  document.getElementById("nilaiTxt").textContent = nilai;
+  document.getElementById("hasilNama").textContent = id.nama;
+  document.getElementById("hasilInst").textContent = id.institusi + " \u00B7 " + id.mapel;
+  const p = document.getElementById("pill");
+  let lab, bg, fg;
+  if(nilai>=85){ lab="Sangat Baik"; bg="#e6f4ec"; fg="#0b3d2e"; }
+  else if(nilai>=70){ lab="Baik"; bg="#eef5e6"; fg="#3d5a12"; }
+  else if(nilai>=55){ lab="Cukup"; bg="#fff4e0"; fg="#8a5a06"; }
+  else { lab="Perlu Ditingkatkan"; bg="#fdeeee"; fg="#9c2020"; }
+  p.textContent = lab; p.style.background = bg; p.style.color = fg;
+  document.getElementById("timerBar").style.display="none";
+}
+async function buatPDF(id, hurufJw, benar, nilai, durasi){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:"mm", format:"a4"});
+  let y = pdfHeader(doc, "BUKTI PENGERJAAN " + JUDUL.toUpperCase());
+  y = pdfIdentitas(doc, y, id, [["Durasi Pengerjaan", durasi]]);
+
+  doc.autoTable({
+    startY:y, theme:"grid",
+    head:[["Jumlah Soal","Jawaban Benar","Jawaban Salah","NILAI AKHIR"]],
+    body:[[SOAL.length, benar, SOAL.length-benar, String(nilai)]],
+    headStyles:{fillColor:[11,61,46], fontSize:9, halign:"center"},
+    bodyStyles:{halign:"center", fontSize:12, fontStyle:"bold", textColor:[11,61,46], cellPadding:3},
+    margin:{left:14,right:14}
+  });
+  y = doc.lastAutoTable.finalY + 7;
+
+  doc.setFont("helvetica","bold"); doc.setFontSize(10); doc.setTextColor(11,61,46);
+  doc.text("Rekapitulasi Jawaban Peserta", 14, y); y += 3;
+
+  const body = [];
+  for(let i=0;i<SOAL.length;i+=2){
+    body.push([ String(i+1), hurufJw[i],
+                (i+1<SOAL.length? String(i+2):""), (i+1<SOAL.length? hurufJw[i+1]:"") ]);
+  }
+  doc.autoTable({
+    startY:y, theme:"grid",
+    head:[["No","Jawaban","No","Jawaban"]],
+    body: body,
+    headStyles:{fillColor:[11,61,46], fontSize:8.6, halign:"center"},
+    styles:{fontSize:9, halign:"center", cellPadding:1.8, lineColor:[220,226,223]},
+    columnStyles:{0:{cellWidth:20},1:{cellWidth:70},2:{cellWidth:20},3:{cellWidth:70}},
+    margin:{left:14,right:14}
+  });
+  y = doc.lastAutoTable.finalY + 9;
+
+  const W = doc.internal.pageSize.getWidth();
+  if(y > 240){ doc.addPage(); y = 25; }
+  doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(60,70,66);
+  doc.text("Pandaan, " + nowStamp().split(",")[0], W-14, y, {align:"right"});
+  doc.text("Peserta,", W-14, y+6, {align:"right"});
+  doc.setFont("helvetica","bold"); doc.setTextColor(11,61,46);
+  doc.text(id.nama, W-14, y+26, {align:"right"});
+  doc.setDrawColor(180,190,186); doc.line(W-80, y+27.5, W-14, y+27.5);
+
+  pdfFooter(doc);
+  doc.save(FORM_TYPE + "_" + safeName(id.nama) + ".pdf");
+}
+document.addEventListener("DOMContentLoaded", ()=>{
+  renderSoal(); updateProgress();
+  document.getElementById("btnStart").addEventListener("click", mulaiTes);
+  document.getElementById("btnSubmit").addEventListener("click", ()=>submitTes(false));
+});
+window.addEventListener("beforeunload", e=>{ if(mulai && !sudah){ e.preventDefault(); e.returnValue=""; } });
+
+</script>
+<footer>&copy; 2026 Tim PKM Universitas Negeri Surabaya &times; Pondok Pesantren Al Kautsar Pandaan</footer>
+</div>
+</body>
+</html>
